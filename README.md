@@ -48,7 +48,7 @@ API Hub adalah sistem REST API berbasis plugin yang dibangun dengan Node.js dan 
 
 1. **Clone atau ekstrak proyek**
    ```bash
-   cd api-hub-fixed-final
+   cd Rest-api-base
    ```
 
 2. **Install dependencies**
@@ -396,10 +396,8 @@ DEBUG=* npm start
 ## 📞 Support
 
 Untuk pertanyaan, bug reports, atau feature requests:
-- Email: support@apihub.dev
-- GitHub Issues: [Repository Issues](https://github.com/apihub/rest-api-plugin-system/issues)
-- Documentation: [Wiki](https://github.com/apihub/rest-api-plugin-system/wiki)
-
+- Email: fruatrecay756@gmail.com
+- GitHub Issues: [Repository Issues](https://github.com/FruatreMaou/Rest-api-base/edit/main/README.md)
 ## 📄 License
 
 MIT License - see LICENSE file for details
@@ -413,5 +411,5 @@ MIT License - see LICENSE file for details
 ---
 
 **API Hub** - Modern Plugin-Based REST API System
-Built with ❤️ using Node.js and Express
+Built with ❤️ using Node.js and Express By Fruatre Maou
 
