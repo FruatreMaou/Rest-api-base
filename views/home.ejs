@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="min-h-screen transition-colors duration-300">
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="fixed inset-0 z-50 flex items-center justify-center">
+        <div class="text-center">
+            <div class="mb-8 animate-pulse">
+                <!-- SVG Logo for Animation -->
+                <svg id="animatedLogo" class="w-32 h-32 mx-auto" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 0L75 25L50 50L25 25L50 0Z" fill="url(#grad1)"/>
+                    <path d="M50 50L75 75L50 100L25 75L50 50Z" fill="url(#grad2)"/>
+                    <path d="M0 25L25 50L0 75L0 25Z" fill="url(#grad3)"/>
+                    <path d="M100 25L75 50L100 75L100 25Z" fill="url(#grad4)"/>
+                    <defs>
+                        <linearGradient id="grad1" x1="50" y1="0" x2="50" y2="50" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#8B5CF6"/>
+                            <stop offset="1" stop-color="#EC4899"/>
+                        </linearGradient>
+                        <linearGradient id="grad2" x1="50" y1="50" x2="50" y2="100" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#EC4899"/>
+                            <stop offset="1" stop-color="#EF4444"/>
+                        </linearGradient>
+                        <linearGradient id="grad3" x1="0" y1="50" x2="25" y2="50" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#8B5CF6"/>
+                            <stop offset="1" stop-color="#3B82F6"/>
+                        </linearGradient>
+                        <linearGradient id="grad4" x1="75" y1="50" x2="100" y2="50" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#EC4899"/>
+                            <stop offset="1" stop-color="#3B82F6"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <div class="text-2xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent mb-4">
+                API Hub
+            </div>
+        </div>
+    </div>
+
+    <!-- Background Pattern -->
+    <div class="fixed inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-teal-900/20"></div>
+    <div class="fixed inset-0 bg-[url(\'data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\')] opacity-40"></div>
+    
+    <div class="relative z-10">
+        <!-- Navigation -->
+        <nav class="container mx-auto px-4 sm:px-6 py-6">
+            <div class="flex items-center justify-between">
+                <div class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">
+                    API Hub
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#home" class="nav-link">Home</a>
+                    <a href="#docs" class="nav-link">Docs</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                </div>
+                <button id="mobileMenuBtn" class="md:hidden btn btn-ghost p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="hidden md:hidden mobile-menu">
+                <a href="#home" class="block nav-link py-2">Home</a>
+                <a href="#docs" class="block nav-link py-2">Docs</a>
+                <a href="#contact" class="block nav-link py-2">Contact</a>
+            </div>
+        </nav>
+
+        <!-- Home Section -->
+        <section id="home" class="section active min-h-screen flex items-center">
+            <div class="container mx-auto px-4 sm:px-6 text-center">
+                <div class="animate-fade-in">
+                    <h1 class="text-4xl sm:text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">
+                        API Hub
+                    </h1>
+                    <p class="text-lg sm:text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+                        Modern Plugin-Based REST API System built with Node.js
+                    </p>
+                    <p class="text-base sm:text-lg mb-12 max-w-2xl mx-auto opacity-80">
+                        Discover our powerful, modular API system where each endpoint is a separate plugin. 
+                        Experience dynamic loading, auto-refresh capabilities, and an intuitive testing interface.
+                    </p>
+                </div>
+
+                <!-- Features Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-12 animate-slide-up">
+                    <div class="card animate-float">
+                        <div class="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Plugin-Based</h3>
+                        <p class="opacity-80">Each API endpoint is a separate plugin file for maximum modularity and flexibility.</p>
+                    </div>
+
+                    <div class="card animate-float" style="animation-delay: 0.2s">
+                        <div class="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Auto-Refresh</h3>
+                        <p class="opacity-80">File watching with automatic plugin reload - no server restart needed.</p>
+                    </div>
+
+                    <div class="card animate-float" style="animation-delay: 0.4s">
+                        <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Interactive Testing</h3>
+                        <p class="opacity-80">Built-in API testing interface with real-time response display.</p>
+                    </div>
+                </div>
+
+                <!-- API Explanation Section -->
+                <div class="mt-16 mb-12 animate-slide-up" style="animation-delay: 0.8s">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-pink-500 to-red-500 bg-clip-text text-transparent">
+                        What Our API Supports
+                    </h2>
+                    <p class="text-base sm:text-lg mb-8 max-w-3xl mx-auto opacity-80">
+                        Our API system is designed to be highly extensible and currently supports a variety of functionalities through its plugin architecture. 
+                        Here\'s a glimpse of what you can do:
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 text-left">
+                        <div class="card">
+                            <h3 class="text-lg sm:text-xl font-semibold mb-2 text-purple-400">Tools & Utilities</h3>
+                            <p class="opacity-80 text-sm sm:text-base">Access general-purpose tools like calculators, timestamp converters, and UUID generators.</p>
+                        </div>
+                        <div class="card">
+                            <h3 class="text-lg sm:text-xl font-semibold mb-2 text-blue-400">AI Capabilities</h3>
+                            <p class="opacity-80 text-sm sm:text-base">Leverage AI-powered text generation for various creative and analytical tasks.</p>
+                        </div>
+                        <div class="card">
+                            <h3 class="text-lg sm:text-xl font-semibold mb-2 text-green-400">Content Downloaders</h3>
+                            <p class="opacity-80 text-sm sm:text-base">Retrieve information and content from external URLs with ease.</p>
+                        </div>
+                        <div class="card">
+                            <h3 class="text-lg sm:text-xl font-semibold mb-2 text-yellow-400">Custom Endpoints</h3>
+                            <p class="opacity-80 text-sm sm:text-base">Easily integrate your own custom GET and POST endpoints for tailored solutions.</p>
+                        </div>
+                        <div class="card">
+                            <h3 class="text-lg sm:text-xl font-semibold mb-2 text-red-400">Dynamic Data</h3>
+                            <p class="opacity-80 text-sm sm:text-base">Display real-time data such as visitor count, device battery, current time, and IP address.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up" style="animation-delay: 0.6s">
+                    <button class="nav-link btn btn-primary" data-target="docs">
+                        Explore APIs
+                    </button>
+                    <button class="nav-link btn btn-secondary" data-target="contact">
+                        Get in Touch
+                    </button>
+                </div>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mt-16 animate-slide-up" style="animation-delay: 0.8s">
+                    <div class="text-center">
+                        <div class="text-2xl sm:text-3xl font-bold text-purple-400" id="totalPlugins"><%= plugins.length %></div>
+                        <div class="opacity-80 text-sm sm:text-base">Total Plugins</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl sm:text-3xl font-bold text-blue-400" id="totalCategories"><%= Object.keys(categories).length %></div>
+                        <div class="opacity-80 text-sm sm:text-base">Categories</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl sm:text-3xl font-bold text-green-400">Online</div>
+                        <div class="opacity-80 text-sm sm:text-base">Status</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl sm:text-3xl font-bold text-yellow-400" id="visitorCount">0</div>
+                        <div class="opacity-80 text-sm sm:text-base">Visitors</div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Info Section -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mt-12 animate-slide-up" style="animation-delay: 1s">
+                    <div class="card">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-base sm:text-lg font-semibold text-orange-400">Device Battery</h3>
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-xl sm:text-2xl font-bold" id="batteryLevel">Checking...</div>
+                        <div class="opacity-80 text-xs sm:text-sm" id="batteryStatus">Battery status</div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-base sm:text-lg font-semibold text-cyan-400">Current Time</h3>
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-xl sm:text-2xl font-bold" id="currentTime">--:--:--</div>
+                        <div class="opacity-80 text-xs sm:text-sm" id="currentDate">Loading...</div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-base sm:text-lg font-semibold text-teal-400">Your IP Address</h3>
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"></path>
+                            </svg>
+                        </div>
+                        <div class="text-xl sm:text-2xl font-bold" id="userIP">Loading...</div>
+                        <div class="opacity-80 text-xs sm:text-sm" id="userLocation">Fetching location...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Docs Section -->
+        <section id="docs" class="section hidden min-h-screen py-20">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                        API Documentation
+                    </h2>
+                    <p class="text-lg sm:text-xl max-w-2xl mx-auto opacity-80">
+                        Explore our comprehensive collection of API endpoints organized by categories
+                    </p>
+                </div>
+
+                <!-- Filter Buttons -->
+                <div class="flex flex-wrap justify-center gap-2 sm:gap-4 mb-8">
+                    <button class="filter-btn active" data-filter="all">
+                        All APIs
+                    </button>
+                    <% Object.keys(categories).forEach(category => { %>
+                    <button class="filter-btn" data-filter="<%= category %>">
+                        <%= category %>
+                    </button>
+                    <% }); %>
+                </div>
+
+                <!-- API Endpoints -->
+                <div id="apiEndpoints" class="space-y-4">
+                    <% plugins.forEach((plugin, index) => { %>
+                    <div class="endpoint-card card" 
+                         data-category="<%= plugin.category %>" 
+                         style="animation-delay: <%= index * 0.1 %>s">
+                        
+                        <!-- Minimalist Header - First Click -->
+                        <div class="endpoint-header cursor-pointer hover:bg-gray-800/30 transition-colors duration-200 p-4 rounded-lg" 
+                             onclick="toggleEndpointInfo(this)">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <span class="method-badge method-<%= plugin.method.toLowerCase() %>">
+                                        <%= plugin.method %>
+                                    </span>
+                                    <div>
+                                        <h3 class="text-lg font-semibold"><%= plugin.name %></h3>
+                                        <p class="text-purple-400 font-mono text-sm"><%= plugin.path %></p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="category-<%= plugin.category.toLowerCase() %> card px-3 py-1 rounded-full text-sm">
+                                        <%= plugin.category %>
+                                    </span>
+                                    <svg class="info-arrow w-5 h-5 text-gray-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Endpoint Info - Shown after first click -->
+                        <div class="endpoint-info hidden border-t border-gray-700/50 pt-4 mt-4">
+                            <div class="mb-4">
+                                <p class="mb-3 text-sm opacity-80"><%= plugin.description || 'No description available' %></p>
+                                
+                                <% if (plugin.params && Object.keys(plugin.params).length > 0) { %>
+                                <div>
+                                    <h4 class="text-sm font-semibold mb-2 opacity-80">Parameters:</h4>
+                                    <div class="card p-3 space-y-1">
+                                        <% Object.entries(plugin.params).forEach(([key, value]) => { %>
+                                        <div class="flex flex-col sm:flex-row sm:items-center">
+                                            <code class="text-purple-400 mr-2 mb-1 sm:mb-0 font-semibold text-sm"><%= key %></code>
+                                            <span class="opacity-80 text-sm"><%= value %></span>
+                                        </div>
+                                        <% }); %>
+                                    </div>
+                                </div>
+                                <% } else { %>
+                                <div class="card p-3">
+                                    <span class="opacity-80 text-sm">No parameters required</span>
+                                </div>
+                                <% } %>
+                            </div>
+
+                            <!-- Try API Button - Second Click -->
+                            <div class="text-center">
+                                <button class="try-api-btn btn btn-primary w-full"
+                                        data-endpoint=\'<%- JSON.stringify(plugin) %>\' 
+                                        onclick="toggleAPITester(this)">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                    </svg>
+                                    Try This API
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- API Tester - Shown after second click -->
+                        <div class="api-tester hidden border-t border-gray-700/50 pt-4 mt-4">
+                            <div class="bg-gray-900/50 rounded-lg p-4">
+                                <h4 class="text-lg font-semibold mb-4 flex items-center">
+                                    <svg class="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    Test API
+                                </h4>
+                                
+                                <form class="api-test-form space-y-4">
+                                    <div class="request-params-section">
+                                        <label class="block text-sm font-medium mb-2 opacity-80">
+                                            <%= plugin.method === 'GET' ? 'Query Parameters' : 'Request Body Parameters' %>
+                                        </label>
+                                        <div class="space-y-3">
+                                            <% if (plugin.params && Object.keys(plugin.params).length > 0) { %>
+                                                <% Object.entries(plugin.params).forEach(([paramName, paramDetails]) => { %>
+                                                <% 
+                                                    let inputType = 'text';
+                                                    let placeholder = paramName;
+                                                    let isRequired = paramDetails.includes('(required)');
+
+                                                    if (paramDetails.includes('number')) {
+                                                        inputType = 'number';
+                                                    } else if (paramDetails.includes('boolean')) {
+                                                        inputType = 'checkbox';
+                                                    } else if (paramDetails.includes('array')) {
+                                                        inputType = 'text';
+                                                        placeholder += ' (comma-separated)';
+                                                    }
+                                                    
+                                                    const descMatch = paramDetails.match(/\- (.*)/);
+                                                    if (descMatch && descMatch[1]) {
+                                                        placeholder = descMatch[1].trim();
+                                                    }
+                                                    if (isRequired) {
+                                                        placeholder += ' (required)';
+                                                    } else {
+                                                        placeholder += ' (optional)';
+                                                    }
+                                                %>
+                                                <div class="parameter-input">
+                                                    <label class="block text-sm font-medium mb-1 text-gray-300">
+                                                        <%= paramName %>
+                                                        <% if (isRequired) { %>
+                                                            <span class="text-red-400">*</span>
+                                                        <% } %>
+                                                    </label>
+                                                    <% if (inputType === 'checkbox') { %>
+                                                        <div class="flex items-center">
+                                                            <input type="checkbox" 
+                                                                   id="<%= plugin.path.replace(/[^a-zA-Z0-9]/g, '') %>-<%= paramName %>" 
+                                                                   name="<%= paramName %>" 
+                                                                   class="form-checkbox h-4 w-4 text-purple-600 transition duration-150 ease-in-out">
+                                                            <label for="<%= plugin.path.replace(/[^a-zA-Z0-9]/g, '') %>-<%= paramName %>" class="ml-2 block text-sm text-gray-300"><%= placeholder %></label>
+                                                        </div>
+                                                    <% } else { %>
+                                                        <input type="<%= inputType %>" 
+                                                               name="<%= paramName %>" 
+                                                               placeholder="<%= placeholder %>"
+                                                               class="form-input text-sm w-full"
+                                                               <%= isRequired ? 'required' : '' %>>
+                                                    <% } %>
+                                                </div>
+                                                <% }); %>
+                                            <% } else { %>
+                                                <div class="text-center py-4">
+                                                    <p class="opacity-80 text-sm">No parameters required for this endpoint</p>
+                                                </div>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="submit" 
+                                            class="send-request-btn btn btn-primary w-full">
+                                        <span class="button-text">Send Request</span>
+                                        <span class="loading hidden ml-2">
+                                            <svg class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                            </svg>
+                                        </span>
+                                    </button>
+                                </form>
+
+                                <!-- Response Section -->
+                                <div class="response-section hidden mt-6">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <h5 class="text-lg font-semibold flex items-center">
+                                            <svg class="w-5 h-5 mr-2 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                            </svg>
+                                            Response
+                                        </h5>
+                                        <button class="copy-response btn btn-ghost text-sm">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                            </svg>
+                                            Copy
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="response-info mb-4 flex items-center space-x-4 text-sm">
+                                        <div class="flex items-center">
+                                            <span class="opacity-80 mr-2">Status:</span>
+                                            <span class="response-status font-semibold"></span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <span class="opacity-80 mr-2">Time:</span>
+                                            <span class="response-time font-semibold"></span>
+                                        </div>
+                                    </div>
+                                    
+                                    <pre class="response-body text-sm overflow-x-auto bg-gray-900 p-4 rounded border"></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section hidden min-h-screen flex items-center">
+            <div class="container mx-auto px-4 sm:px-6 text-center">
+                <div class="max-w-2xl mx-auto">
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+                        Get in Touch
+                    </h2>
+                    <p class="text-lg sm:text-xl mb-8 opacity-80">
+                        Have questions about our API system? Want to contribute or report issues?
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-12">
+                        <div class="card">
+                            <div class="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-semibold mb-3">Email</h3>
+                            <p class="opacity-80 text-sm sm:text-base">contact@apihub.dev</p>
+                        </div>
+
+                        <div class="card">
+                            <div class="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-semibold mb-3">GitHub</h3>
+                            <p class="opacity-80 text-sm sm:text-base break-all">github.com/apihub/rest-api-plugin-system</p>
+                        </div>
+                    </div>
+
+                    <div class="card text-left">
+                        <h3 class="text-xl sm:text-2xl font-semibold mb-6 text-center">About the Project</h3>
+                        <p class="opacity-80 leading-relaxed text-sm sm:text-base">
+                            This REST API Plugin System is built with modern web technologies including Node.js, Express, and ESM modules. 
+                            It features a unique plugin-based architecture where each API endpoint is defined as a separate module, 
+                            enabling maximum flexibility and maintainability. The system includes automatic file watching, 
+                            dynamic route registration, and a beautiful interactive testing interface.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="container mx-auto px-4 sm:px-6 py-8 text-center opacity-60 border-t">
+            <p class="text-sm sm:text-base">&copy; 2024 API Hub. Plugin-based REST API System built with Node.js</p>
+        </footer>
+    </div>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
+
+
